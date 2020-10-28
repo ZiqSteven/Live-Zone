@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrManager } from 'ng6-toastr-notifications';
-
-import { SocialAuthService } from "angularx-social-login";
-import { SocialUser } from "angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider, VKLoginProvider } from "angularx-social-login";
 
 @Component({
   selector: 'app-home',
@@ -12,32 +7,29 @@ import { FacebookLoginProvider, GoogleLoginProvider, VKLoginProvider } from "ang
 })
 export class HomeComponent implements OnInit {
 
-  user: SocialUser;
-  loggedIn: boolean;
-
-  constructor(private authService: SocialAuthService){
-
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    //esto es un observable que recibir data de manera asincrono y varias veces
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      console.log(user);
-      this.loggedIn = (user != null);
-    });
   }
 
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
+  login() {
  
-  signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  }
-
-  signOut(): void {
-    this.authService.signOut();
-  }
+    window['FB'].login((response) => {
+        console.log('login response',response);
+        if (response.authResponse) {
+ 
+          window['FB'].api('/me', {
+            fields: 'last_name, first_name, email'
+          }, (userInfo) => {
+ 
+            console.log("user information");
+            console.log(userInfo);
+          });
+           
+        } else {
+          console.log('User login failed');
+        }
+    }, {scope: 'email'});
+}
 
 }

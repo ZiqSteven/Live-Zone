@@ -1,0 +1,11 @@
+.body{
+    margin-top: 3vh;
+    margin-left: 2vh;
+    display: block;
+}
+app-stream-card{
+    display: flex;
+}
+.cards{
+    display: flex;
+}
