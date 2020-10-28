@@ -9,15 +9,10 @@ export class StreamService {
 
   streamList = new Array();
 
-  constructor(private http: HttpClientModule) {
-    this.streamList.push(new Stream('Stream Facebook', 'https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/watch/?v=363425901586622&show_text=0&width=560', 'Facebook'));
-    this.streamList.push(new Stream('Stream Facebook', 'https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/watch/?v=354605098958472&show_text=0&width=560', 'Facebook'));
-    this.streamList.push(new Stream('Stream Twitch', 'https://player.twitch.tv/?channel=ponchoelrex&parent=localhost ', 'Twitch'));
-    this.streamList.push(new Stream('Stream Youtube', 'https://www.youtube.com/embed/EwxOU8KGO2k?autoplay=1', 'Youtube'));
-  }
+  constructor(private http: HttpClientModule) {}
 
   addStreaming(stream: Stream) {
-    this.streamList.push(stream);
+    // this.http.post('')
   }
 
   getStreams() {

@@ -1,3 +1,4 @@
+import { EndPointService } from './services/end-point.service';
 import { StreamService } from './services/stream.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -33,7 +34,7 @@ import { StreamListComponent } from './components/stream-list/stream-list.compon
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [StreamService],
+  providers: [StreamService, EndPointService] ,
   bootstrap: [AppComponent]
 })
 export class AppModule { }
