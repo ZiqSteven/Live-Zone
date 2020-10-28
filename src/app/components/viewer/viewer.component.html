@@ -1,0 +1,8 @@
+<div class="searchbar">
+    <input type="text" placeholder="Buscar srtreams">
+    <button>Aceptar</button>
+</div>
+
+<h2>Lista de Streamings</h2>
+
+<app-stream-list *ngFor="let platform of platformList" platform={{platform}}></app-stream-list>

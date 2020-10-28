@@ -1,3 +1,4 @@
+import { StreamService } from './services/stream.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -9,6 +10,10 @@ import { Page404Component } from './components/page404/page404.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { StreamerDashComponent } from './components/streamer-dash/streamer-dash.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from "@angular/common/http";
+import { ViewerComponent } from './components/viewer/viewer.component';
+import { StreamCardComponent } from './components/stream-card/stream-card.component';
+import { StreamListComponent } from './components/stream-list/stream-list.component';
 
 @NgModule({
   declarations: [
@@ -17,14 +22,18 @@ import { FormsModule } from '@angular/forms';
     PoliticaComponent,
     Page404Component,
     NavbarComponent,
-    StreamerDashComponent
+    StreamerDashComponent,
+    ViewerComponent,
+    StreamCardComponent,
+    StreamListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [StreamService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
