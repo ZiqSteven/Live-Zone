@@ -7,6 +7,8 @@ import { HomeComponent } from './components/home/home.component';
 import { PoliticaComponent } from './components/politica/politica.component';
 import { Page404Component } from './components/page404/page404.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { StreamerDashComponent } from './components/streamer-dash/streamer-dash.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,10 +16,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     HomeComponent,
     PoliticaComponent,
     Page404Component,
-    NavbarComponent
+    NavbarComponent,
+    StreamerDashComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],
