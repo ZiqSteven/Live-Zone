@@ -5,17 +5,31 @@
             <h1>
                 ¡DESCUBRE LO QUE TENEMOS PARA TI!
             </h1>
-            <button class="btn btn-danger btn-block" (click)="signInWithGoogle()">
+            <button id="vidBtn" (click)="signInWithFB()">
+                <i class="fa fa-facebook"></i>
+                Continuar con Facebook
+            </button>
+            <button id="vidBtn2" (click)="signInWithGoogle()">
                 <i class="fa fa-google"></i>
-                Continuar con Google</button>
-            <a href="" id="vidBtn">Continuar con Facebook</a>
-            <a href="" id="vidBtn1">Continuar con twitch</a>
-            <a href="" id="vidBtn2">Continuar con youtube</a>
-
-            <img src="{{ user.photoUrl }}" *ngIf="user">
+                Continuar con Google
+            </button>
+            <button id="vidBtn1" (click)="signInWithGoogle()">
+                <i class="fa fa-twitch"></i>
+                Continuar con Twitch
+            </button>
             <div>
-                <h4>{{ user.name }}</h4>
-                <p>{{ user.email }}</p>
+                <button id="vidBtn3" (click)="signOut()">
+                    <i class="fa fa-sign-out"></i>
+                    Cerrar sesion
+                </button>
+            </div>
+
+            <div *ngIf="user">
+                <img src="{{ user.photoUrl }}">
+                <div>
+                    <h4>{{ user.name }}</h4>
+                    <p>{{ user.email }}</p>
+                </div>
             </div>
         </div>
     </div>
