@@ -5,10 +5,18 @@
             <h1>
                 ¡DESCUBRE LO QUE TENEMOS PARA TI!
             </h1>
+            <button class="btn btn-danger btn-block" (click)="signInWithGoogle()">
+                <i class="fa fa-google"></i>
+                Continuar con Google</button>
             <a href="" id="vidBtn">Continuar con Facebook</a>
             <a href="" id="vidBtn1">Continuar con twitch</a>
-            <button (click)="submitLogin()">Continuar con Facebook</button>
             <a href="" id="vidBtn2">Continuar con youtube</a>
+
+            <img src="{{ user.photoUrl }}" *ngIf="user">
+            <div>
+                <h4>{{ user.name }}</h4>
+                <p>{{ user.email }}</p>
+            </div>
         </div>
     </div>
 </div>
