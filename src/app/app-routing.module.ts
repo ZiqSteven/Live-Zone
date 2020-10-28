@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'politica-de-privacidad', component: PoliticaComponent},
   { path: 'streamer', component: StreamerDashComponent},
-  { path: '**', component: Page404Component},
+  { path: '**', pathMatch: 'full', redirectTo: 'home'},
 ];
 
 @NgModule({
