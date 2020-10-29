@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class EndPointService {
 
-  URL_STREAM = 'http://localhost:3000';
+  URL_STREAM = 'http://localhost:3000/stream';
+  URL_USER = 'http://localhost:3000/user';
 
   constructor() { }
 }

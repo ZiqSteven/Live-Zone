@@ -1,34 +1,30 @@
+import { EndPointService } from './end-point.service';
 import { Stream } from './../models/stream';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StreamService {
 
-  streamList = new Array();
-
-  constructor(private http: HttpClientModule) {}
+  constructor(private http: HttpClient, private endpoint: EndPointService) { }
 
   addStreaming(stream: Stream) {
-    // this.http.post('')
+    return this.http.post(this.endpoint.URL_STREAM + '/', stream);
   }
 
-  getStreams() {
-    return this.streamList;
+  getStreams(): Observable<Stream[]> {
+    return this.http.get(this.endpoint.URL_STREAM + '/').pipe(
+      map((streams) => streams as Stream[])
+    )
   }
 
   getStreamByPlatform(platform: string) {
-    let streamByPlatform = new Array();
-    this.streamList.forEach((stream: Stream) => {
-      if (stream.platform == undefined) {
-      } else {
-        if (stream.platform.toLowerCase() === platform.toLocaleLowerCase()) {
-          streamByPlatform.push(stream);
-        }
-      }
-    })
-    return streamByPlatform;
+    return this.http.get(this.endpoint.URL_STREAM + '/' + platform).pipe(
+      map((streams) => streams as Stream[])
+    )
   }
 }
