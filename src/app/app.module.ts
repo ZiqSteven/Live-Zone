@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -8,7 +9,12 @@ import { PoliticaComponent } from './components/politica/politica.component';
 import { Page404Component } from './components/page404/page404.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { StreamerDashComponent } from './components/streamer-dash/streamer-dash.component';
+import { StreamCardComponent } from './components/stream-card/stream-card.component';
+import { StreamListComponent } from './components/stream-list/stream-list.component';
 import { FormsModule } from '@angular/forms';
+import { ViewerComponent } from './components/viewer/viewer.component';
+import { EndPointService } from './services/end-point.service';
+import { StreamService } from './services/stream.service';
 
 //Modulos para inicio de sesion con social login
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
@@ -24,11 +30,15 @@ import {
     PoliticaComponent,
     Page404Component,
     NavbarComponent,
-    StreamerDashComponent
+    StreamerDashComponent,
+    ViewerComponent,
+    StreamCardComponent,
+    StreamListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     AppRoutingModule,
     SocialLoginModule
   ],
@@ -48,7 +58,9 @@ import {
           }
         ],
       } as SocialAuthServiceConfig,
-    }
+    },
+    StreamService, 
+    EndPointService
   ],
   bootstrap: [AppComponent]
 })
