@@ -24,7 +24,7 @@ export class StreamListComponent implements OnInit {
   async getStreams() {
     setTimeout(() => {
       this.streamList = this.streamService.getStreamByPlatform(this.platform);
-      console.log('putos srtams', this.streamList);
+      console.log('putos srtams', this.streamList, this.platform);
     }, 2000);
   }
 }
