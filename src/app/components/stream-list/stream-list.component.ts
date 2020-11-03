@@ -15,7 +15,7 @@ export class StreamListComponent implements OnInit {
   constructor(private streamService: StreamService) {
     this.getStreams();
     console.log('tafak');
-
+    
   }
 
   ngOnInit(): void {
@@ -23,9 +23,8 @@ export class StreamListComponent implements OnInit {
 
   async getStreams() {
     setTimeout(() => {
-      this.streamService.getStreamByPlatform(this.platform).subscribe(streams => {
-        this.streamList = streams;
-      })
+      this.streamList = this.streamService.getStreamByPlatform(this.platform);
+      console.log('putos srtams', this.streamList, this.platform);
     }, 2000);
   }
 }
