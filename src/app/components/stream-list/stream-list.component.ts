@@ -9,13 +9,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class StreamListComponent implements OnInit {
 
-  streamList: Stream[];
+  streamList: Array<Stream>;
   @Input() platform: string
 
   constructor(private streamService: StreamService) {
     this.getStreams();
-    console.log('tafak');
-    
   }
 
   ngOnInit(): void {
@@ -23,8 +21,12 @@ export class StreamListComponent implements OnInit {
 
   async getStreams() {
     setTimeout(() => {
-      this.streamList = this.streamService.getStreamByPlatform(this.platform);
-      console.log('putos srtams', this.streamList, this.platform);
+      this.streamService.getStreamByPlatform(this.platform).subscribe(list => {
+        if (list['status'] === 'error') {
+        } else {
+          this.streamList = list['streams'];
+        }
+      });
     }, 2000);
   }
 }
