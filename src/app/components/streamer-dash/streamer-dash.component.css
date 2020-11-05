@@ -64,6 +64,14 @@ button {
     height: 91.2vh;
 }
 
+p{
+    color: #fff;
+}
+
+.wallet{
+    margin-top: 2vh;
+}
+
 #viewers{
     position: absolute;
     display: flex;
