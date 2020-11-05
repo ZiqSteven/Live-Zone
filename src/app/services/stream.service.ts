@@ -31,4 +31,9 @@ export class StreamService {
   addViewers(viewer) {
     return this.http.post(this.endpoint.URL_STREAM + '/viewer/', viewer);
   }
+
+  removeViewer(streamId: string, viewer) {
+    return this.http.put(this.endpoint.URL_STREAM + '/' + streamId, viewer);
+  }
+
 }
