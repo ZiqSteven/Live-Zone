@@ -22,6 +22,7 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from 'angularx-social-login';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {
     StreamerDashComponent,
     ViewerComponent,
     StreamCardComponent,
-    StreamListComponent
+    StreamListComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
