@@ -12,6 +12,8 @@ export class StreamCardComponent {
   @Input() url
   @Input() id: string
 
+  state: string;
+
   constructor(private dom: DomSanitizer, private stream: StreamService) {
     setTimeout(() => {
       this.url = this.dom.bypassSecurityTrustResourceUrl(this.url);
@@ -21,16 +23,15 @@ export class StreamCardComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['url']) {
       this.url = this.dom.bypassSecurityTrustResourceUrl(this.url)['changingThisBreaksApplicationSecurity'];
-      console.log(this.url, 'jajajajja');
-
     }
   }
 
   watch() {
+    this.state = 'One viewer';
     this.stream.addViewers({ viewer: 'yo', gamer: 'el pro' }).subscribe(res => {
       // console.log(res);
     });
     console.log('viewer +1');
-    
+
   }
 }

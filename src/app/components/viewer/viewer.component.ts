@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { StreamCardComponent } from './../stream-card/stream-card.component';
+import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-viewer',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewerComponent implements OnInit {
 
-  platformList: string [] = [ 'Youtube', 'Twitch', 'Facebook'];
+  platformList: string[] = ['Youtube', 'Twitch', 'Facebook'];
 
   constructor() { }
 
