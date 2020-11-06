@@ -23,6 +23,7 @@ import {
   FacebookLoginProvider
 } from 'angularx-social-login';
 import { LoginComponent } from './components/login/login.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { LoginComponent } from './components/login/login.component';
       } as SocialAuthServiceConfig,
     },
     StreamService, 
-    EndPointService
+    EndPointService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
