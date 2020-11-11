@@ -24,6 +24,7 @@ import {
 } from 'angularx-social-login';
 import { LoginComponent } from './components/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
+import { ViewerDashComponent } from './components/viewer-dash/viewer-dash.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { CookieService } from 'ngx-cookie-service';
     ViewerComponent,
     StreamCardComponent,
     StreamListComponent,
-    LoginComponent
+    LoginComponent,
+    ViewerDashComponent
   ],
   imports: [
     BrowserModule,

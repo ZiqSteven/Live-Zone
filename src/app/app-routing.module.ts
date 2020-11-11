@@ -1,3 +1,4 @@
+import { ViewerDashComponent } from './components/viewer-dash/viewer-dash.component';
 import { StreamerDashComponent } from './components/streamer-dash/streamer-dash.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'politica-de-privacidad', component: PoliticaComponent},
   { path: 'streamer', component: StreamerDashComponent},
   { path: 'viewer', component: ViewerComponent},
+  { path: 'viewer-dash/:url', component: ViewerDashComponent},
   { path: '**', pathMatch: 'full', redirectTo: 'home'},
 ];
 

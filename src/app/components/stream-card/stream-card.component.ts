@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { StreamService } from './../../services/stream.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -10,12 +11,14 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 })
 export class StreamCardComponent {
 
-  @Input() url
-  @Input() id: string
+  @Input() url;
+  @Input() _id: string;
+  @Input() gamer: string;
 
   state: string;
 
-  constructor(private dom: DomSanitizer, private stream: StreamService, private cookies: CookieService) {
+  constructor(private dom: DomSanitizer, private stream: StreamService,
+    private cookies: CookieService, private router: Router) {
     setTimeout(() => {
       this.url = this.dom.bypassSecurityTrustResourceUrl(this.url);
     }, 10);
@@ -27,13 +30,19 @@ export class StreamCardComponent {
     }
   }
 
+  /**
+   * Agrega un espectador al streaming en custion, si el usuario no ha iniciado sesión
+   * lo redirige a la pantalla de inicio de sesión
+   */
   watch() {
     //este método falta completarlo: necesita que se guarden las cookies de inicio de sesión
-    this.state = 'One viewer';
-    this.stream.addViewers({ viewer: this.cookies.get('id-viewer'), gamer: 'el pro' }).subscribe(res => {
-      // console.log(res);
-    });
-    console.log('viewer +1');
-
+    if (this.cookies.get('email') != '') {
+      this.state = 'One viewer';
+      this.stream.addViewers({ viewer: this.cookies.get('email'), gamer: this.gamer }).subscribe(res => {
+      });
+      this.router.navigate(['viewer-dash', '']);
+    } else {
+      alert('Debes iniciar sesión para ver este Streaming');
+    }
   }
 }

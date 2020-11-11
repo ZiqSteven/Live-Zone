@@ -1,4 +1,5 @@
 export class Stream {
+    _id: string;
     url: string;
     platform: string;
     state: string;

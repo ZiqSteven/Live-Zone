@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { StreamCardComponent } from './../stream-card/stream-card.component';
 import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
@@ -10,7 +12,12 @@ export class ViewerComponent implements OnInit {
 
   platformList: string[] = ['Youtube', 'Twitch', 'Facebook'];
 
-  constructor() { }
+  constructor(private cookies: CookieService, private router: Router) { 
+    if (this.cookies.get('email') === '') {
+      alert('Debes iniciar Sesión');
+      router.navigate(['/']);
+    } 
+  }
 
   ngOnInit(): void {
   }
