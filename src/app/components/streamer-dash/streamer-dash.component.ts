@@ -1,7 +1,12 @@
+import { Router } from '@angular/router';
+import { YoutubeService } from './../../services/youtube.service';
+import { CookieService } from 'ngx-cookie-service';
 import { StreamService } from './../../services/stream.service';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Stream } from 'src/app/models/stream';
+import { Route } from '@angular/compiler/src/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-streamer-dash',
@@ -22,27 +27,82 @@ export class StreamerDashComponent implements OnInit {
   urlTwitchIframe
 
   viewers: Number;
-
   quantum: Number = 100000;
 
   name: string = 'el pro';
 
-  constructor(private _sanitizer: DomSanitizer, private streamService: StreamService) {
+  constructor(private _sanitizer: DomSanitizer, private streamService: StreamService,
+    private cookies: CookieService, private youtubeService: YoutubeService, private router: Router) {
 
     this.greeting = '¡Hola Gamer, Bienvenido!'
     this.platform = 'yt';
 
+    this.cookies.set('userToken', window.location.hash);
+    console.log(window.location.hash, 'mi token');
+    
+    //remover los elementos de la UI
     setTimeout(() => {
       document.getElementById('video').style.display = 'none';
       document.getElementById('videofacebook').style.display = 'none';
       document.getElementById('videotwitch').style.display = 'none';
       document.getElementById('viewers').style.display = 'none';
     }, 0.1);
+
+    //Obtener el Streaming actual activo
+    this.youtubeService.getStreamByUser(this.cookies.get('userToken')).subscribe(res => {
+      console.log('entra', res);
+      
+    //   youtubeService.getVideoById(res['items'][0]['snippet']['channelId']).subscribe(video => {
+    //     this.urlYoutube = video['items'][0]['id']['videoId'];
+        // this.streamService.addStreaming(
+        //   new Stream(video['items'][0]['id']['videoId'], 'Youtube', 'active', this.cookies.get('name')));
+      //   this.youtube()
+      // });
+
+
+      if (res['items'][0]['status']['streamStatus'] === 'active') {
+        youtubeService.getVideoById(res['items'][0]['snippet']['channelId']).subscribe(video => {
+          this.urlYoutube = video['items'][0]['id']['videoId'];
+          this.streamService.addStreaming(
+            new Stream(video['items'][0]['id']['videoId'], 'Youtube', 'active', this.cookies.get('name')));
+          this.youtube()
+        });
+      } else {
+        this.showAlert('Lo sentimos, no tienes un Streaming activo, vuelve a intentarlo');
+      }
+    });
+
+    //REFRESCAR EL TOKEN SI SE EXPIRA
+    // setTimeout(() => {
+    //   this.youtubeService.refreshToken(this.cookies.get('userToken')).subscribe(res => {
+    //   })
+    // }, 2000);
   }
 
   ngOnInit() {
   }
 
+  showAlert(text: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: text,
+      footer: '<a href>¿Por qué sucede esto?</a>'
+    })
+  }
+
+  ngOnDestroy() {
+    this.cookies.deleteAll();
+  }
+
+  newStream() {
+    this.router.navigate(['platform'])
+  }
+
+  /**
+   * Dependiendo de la platadorma, se activa una plataforma u otra
+   * @param platform plataforma en la que se va a Stremear
+   */
   platformStream(platform) {
     switch (platform) {
       case 'youtube':
@@ -58,10 +118,10 @@ export class StreamerDashComponent implements OnInit {
     document.getElementById('viewers').style.display = 'block';
   }
 
+  //Obtiene los Viewers de los Streams activos por gamer
   getViewers() {
     this.streamService.getStreamByGamer(this.name).subscribe(res => {
-      console.log(res,  'response to server');
-      
+      console.log(res, 'response to server');
       if (res['status'] === 'error') {
         console.log(res['message']);
       } else {
@@ -77,12 +137,12 @@ export class StreamerDashComponent implements OnInit {
     document.getElementById('videofacebook').style.display = 'none';
     document.getElementById('videotwitch').style.display = 'none';
     console.log(this.urlYoutube, 'url');
-    this.streamService.addStreaming(new Stream(this.urlYoutube['changingThisBreaksApplicationSecurity'], this.platform, 'live', 'el pro')).subscribe(res => {
+    this.streamService.addStreaming(new Stream(this.urlYoutube['changingThisBreaksApplicationSecurity'], this.platform, 'active', 'el pro')).subscribe(res => {
       console.log(res);
     });
-    setInterval(() => {
-      this.getViewers();
-    }, 1000)
+    // setInterval(() => {
+    //   this.getViewers();
+    // }, 1000)
   }
 
   twitch() {
@@ -93,7 +153,7 @@ export class StreamerDashComponent implements OnInit {
     document.getElementById('videofacebook').style.display = 'none';
     document.getElementById('videotwitch').style.display = 'block';
     document.getElementById('viewers').style.display = 'block';
-    this.streamService.addStreaming(new Stream(this.urlTwitchIframe['changingThisBreaksApplicationSecurity'], this.platform, 'live', 'el pro twitch')).subscribe(res => {
+    this.streamService.addStreaming(new Stream(this.urlTwitchIframe['changingThisBreaksApplicationSecurity'], this.platform, 'active', 'el pro twitch')).subscribe(res => {
       console.log(res);
     });
   }
@@ -108,7 +168,7 @@ export class StreamerDashComponent implements OnInit {
     document.getElementById('viewers').style.display = 'block';
     console.log(this.urlFacebookIframe['changingThisBreaksApplicationSecurity'], 'url fb');
 
-    this.streamService.addStreaming(new Stream(this.urlFacebookIframe['changingThisBreaksApplicationSecurity'], this.platform, 'live', 'el pro facebook')).subscribe(res => {
+    this.streamService.addStreaming(new Stream(this.urlFacebookIframe['changingThisBreaksApplicationSecurity'], this.platform, 'active', 'el pro facebook')).subscribe(res => {
       console.log(res);
     });
   }

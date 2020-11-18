@@ -1,3 +1,5 @@
+import { YoutubeService } from './services/youtube.service';
+import { UserService } from './services/user.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -22,9 +24,28 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from 'angularx-social-login';
-import { LoginComponent } from './components/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ViewerDashComponent } from './components/viewer-dash/viewer-dash.component';
+import { SignupComponent } from './components/signup/signup.component';
+import {
+  GoogleApiModule, 
+  GoogleApiService, 
+  GoogleAuthService, 
+  NgGapiClientConfig, 
+  NG_GAPI_CONFIG,
+  GoogleApiConfig
+} from "ng-gapi";
+import { PlatformComponent } from './components/platform/platform.component';
+
+let gapiClientConfig: NgGapiClientConfig = {
+  client_id: "897827329033-64bj6stlebpfeqkhi5bsnmqign1m75f8.apps.googleusercontent.com",
+  discoveryDocs: ["https://www.googleapis.com/youtube/v3/liveStreams"],
+  scope: [
+      "https://www.googleapis.com/auth/youtube.readonly",
+      "https://www.googleapis.com/auth/youtube",
+      "https://www.googleapis.com/auth/youtube.force-ssl"
+  ].join(" ")
+};
 
 @NgModule({
   declarations: [
@@ -36,15 +57,21 @@ import { ViewerDashComponent } from './components/viewer-dash/viewer-dash.compon
     StreamerDashComponent,
     ViewerComponent,
     StreamCardComponent,
+    SignupComponent,
     StreamListComponent,
-    LoginComponent,
-    ViewerDashComponent
+    ViewerDashComponent,
+    SignupComponent,
+    PlatformComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: gapiClientConfig
+    }),
     SocialLoginModule
   ],
   providers: [
@@ -66,7 +93,10 @@ import { ViewerDashComponent } from './components/viewer-dash/viewer-dash.compon
     },
     StreamService, 
     EndPointService,
-    CookieService
+    CookieService,
+    YoutubeService,
+    GoogleApiService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

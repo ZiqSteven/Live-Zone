@@ -22,5 +22,4 @@ export class NavbarComponent implements OnInit {
       this.loggedIn = (user != null);
     });
   }
-
 }

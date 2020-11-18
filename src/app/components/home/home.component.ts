@@ -1,7 +1,8 @@
-import { ViewerService } from './../../services/viewer.service';
+import { User } from './../../models/user';
+import { UserService } from './../../services/user.service';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
-import { ToastrManager } from 'ng6-toastr-notifications';
 
 import { SocialAuthService } from "angularx-social-login";
 import { SocialUser } from "angularx-social-login";
@@ -16,45 +17,73 @@ export class HomeComponent implements OnInit {
 
   user: SocialUser;
   loggedIn: boolean;
+  platform: string;
+  photo: string
 
-  constructor(private authService: SocialAuthService, private cookies: CookieService, private viewerService: ViewerService) {
+  constructor(private authService: SocialAuthService, private cookies: CookieService,
+    private userService: UserService, private router: Router) {
     this.cookies.deleteAll();
   }
 
   ngOnInit(): void {
     //esto es un observable que recibir data de manera asincrono y varias veces
     this.authService.authState.subscribe((user) => {
-      this.user = user;
-      console.log(user);
-      console.log(user.email);
-      console.log(user.firstName);
-      console.log(user.name);
-      console.log(user.response.picture.data.url);
-      this.viewerService.getViewerByEmail(user.email).subscribe(res => {
-        if (res['status'] === 'error') {
-          alert('Usuario no registrado en la base de datos');
+      console.log(user.authToken, 'token');
+      console.log(user, 'user');
+      
+      this.userService.getUserByEmail(user.email).subscribe(res => {
+        if (res['status'] != 'succes') {
+          alert('Lo sentimos, no estás registrado, por favor registrate');
         } else {
-          this.cookies.set('user_id', res['user']['_id']);
+          this.user = user;
+          console.log(this.user.idToken);
+          
+          this.login();
+          this.loggedIn = (user != null);
         }
+      }, err => {
+        alert('Lo sentimos, ha ocurrido un problema, por favor intentalo mas tarde');
       });
-      this.cookies.set('email', user.email);
-      this.cookies.set('first_name', user.firstName);
-      this.cookies.set('email', user.email);
-      this.cookies.set('photo', user.response.picture.data.url);
-      this.loggedIn = (user != null);
     });
   }
 
   signInWithGoogle(): void {
+    this.platform = 'google'
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
   signInWithFB(): void {
+    this.platform = 'facebook'
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 
   signOut(): void {
     this.authService.signOut();
+  }
+
+  signup() {
+    this, this.router.navigate(['signup']);
+  }
+
+  login() {
+    switch (this.platform) {
+      case 'facebook':
+        this.cookies.set('email', this.user.email);
+        console.log(this.cookies.get('email'), 'jajajajaj');
+        
+        this.cookies.set('first_name', this.user.name);
+        this.cookies.set('id_social', this.user.id);
+        this.cookies.set('photo', this.user.response.picture.data.url);
+        this.photo = this.user.response.picture.data.url;
+        break;
+      case 'google':
+        this.cookies.set('email', this.user.email);
+        this.cookies.set('first_name', this.user.name);
+        this.cookies.set('id_social', this.user.id);
+        this.cookies.set('photo', this.user.photoUrl);
+        this.photo = this.user.photoUrl;
+        break;
+    }
   }
 
 }

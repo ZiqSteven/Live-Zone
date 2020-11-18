@@ -2,13 +2,13 @@ export class Stream {
     _id: string;
     url: string;
     platform: string;
-    state: string;
+    status: string;
     gamer: string;
 
-    constructor(url: string, platform: string, state: string, gamer: string) {
+    constructor(url: string, platform: string, status: string, gamer: string) {
         this.url = url;
         this.platform = platform;
-        this.state = state;
+        this.status = status;
         this.gamer = gamer;
     }
 }

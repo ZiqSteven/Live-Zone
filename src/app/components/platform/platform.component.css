@@ -1,0 +1,24 @@
+.container{
+    text-align: center;
+}
+
+img{
+    border-radius: 1vh;
+    border: solid;
+    width: 8vh;
+    margin-top: 20%;
+}
+
+a{
+    cursor: pointer;
+    margin-right: 5vh;
+    width: 100%;
+}
+
+*:focus{
+    outline: none;
+}
+h3{
+    margin-top: 8%;
+   text-align: center;
+}

@@ -1,10 +1,5 @@
-.bg-video{
-    position: relative;
-    display: inline-block;
-    text-align: center;
-}
-
 .centrado{
+   text-align: center;
     width: 100%;
     color: white;
     position: absolute;
@@ -75,16 +70,4 @@
     border-radius: 9px;
     animation: shadow-pulse 2s infinite;
     text-transform: uppercase;
-}
-
-h3{
-    color: #fff;
-}
-
-a{
-    cursor: pointer;
-}
-
-a:hover{
-    color: #ffa500;
 }

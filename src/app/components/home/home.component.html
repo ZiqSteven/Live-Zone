@@ -23,14 +23,14 @@
                     Cerrar sesion
                 </button>
             </div>
-
             <div *ngIf="user">
-                <img src="{{ user.photoUrl }}">
+                <img src="{{ photo }}">
                 <div>
                     <h4>{{ user.name }}</h4>
                     <p>{{ user.email }}</p>
                 </div>
             </div>
+            <h5>¿No te has registrado?, <a (click)="signup()">¡Hazlo aquí!</a></h5>
         </div>
     </div>
 </div>

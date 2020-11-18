@@ -39,8 +39,12 @@ export class StreamCardComponent {
     if (this.cookies.get('email') != '') {
       this.state = 'One viewer';
       this.stream.addViewers({ viewer: this.cookies.get('email'), gamer: this.gamer }).subscribe(res => {
+        if (res['status'] == 'succes') {
+          this.router.navigate(['viewer-dash', '']);
+        } else {
+          alert('ha ocurrido un error, vuelve a intentarlo')
+        }
       });
-      this.router.navigate(['viewer-dash', '']);
     } else {
       alert('Debes iniciar sesión para ver este Streaming');
     }

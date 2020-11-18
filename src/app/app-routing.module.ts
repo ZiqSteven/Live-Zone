@@ -1,3 +1,5 @@
+import { PlatformComponent } from './components/platform/platform.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { ViewerDashComponent } from './components/viewer-dash/viewer-dash.component';
 import { StreamerDashComponent } from './components/streamer-dash/streamer-dash.component';
 import { NgModule } from '@angular/core';
@@ -12,7 +14,9 @@ const routes: Routes = [
   { path: 'politica-de-privacidad', component: PoliticaComponent},
   { path: 'streamer', component: StreamerDashComponent},
   { path: 'viewer', component: ViewerComponent},
-  { path: 'viewer-dash/:url', component: ViewerDashComponent},
+  { path: 'signup', component: SignupComponent},
+  { path: 'signup', component: SignupComponent},
+  { path: 'platform', component: PlatformComponent},
   { path: '**', pathMatch: 'full', redirectTo: 'home'},
 ];
 

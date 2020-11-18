@@ -20,7 +20,7 @@ export class ViewerDashComponent implements OnInit {
   viewerMinutes: number;
 
   time: string;
-
+//user obtenber user en vez dce. viewer o mirar a ver
   constructor(private cookies: CookieService, private viewerService: ViewerService,
     private router: Router, private activatedRoute: ActivatedRoute) {
     if (this.cookies.get('email') != '') {

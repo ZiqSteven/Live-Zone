@@ -1,126 +1,101 @@
 <div class="big-container">
-    <h1>{{greeting}}</h1>
-    <div class="sidemenu">
-      <ul>
-        <button id="tooltip" data-toggle="tooltip" id="mainicon" type="button" data-toggle="modal"
-          data-target="#exampleModal"><img src="assets/live.png" alt="" srcset=""></button>
-        <button data-toggle="tooltip"><img src="assets/new.png" alt="" srcset=""></button>
-        <div class="wallet">
-          <p>Bolsillo</p>
-          <p>{{quantum}}</p>
-        </div>
-        <img src="" alt="" srcset="">
-        <img src="" alt="" srcset="">
-        <img src="" alt="" srcset="">
-      </ul>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="exampleModalLabel">Selecciona la plataforma en la que estás emitiendo</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" id="modal">
-            <button class="modalbutton" data-toggle="modal" data-target="#youtubemodal" data-dismiss="modal"><img
-                src="assets/youtube.png" alt="" srcset=""></button>
-            <button class="modalbutton" data-toggle="modal" data-target="#twitchmodal" data-dismiss="modal"><img
-                src="assets/twitch.png" alt="" srcset=""></button>
-            <button class="modalbutton" data-toggle="modal" data-dismiss="modal" data-target="#facebookmodal"><img
-                src="assets/facebook.png" alt="" srcset=""></button>
-          </div>
-        </div>
+  <h1>{{greeting}}</h1>
+  <div class="sidemenu">
+    <ul>
+      <button id="mainicon" type="button"><img src="assets/live.png" (click)="newStream()"></button>
+      <button data-toggle="tooltip"><img src="assets/new.png" alt="" srcset=""></button>
+      <div class="wallet">
+        <p>Bolsillo</p>
+        <p>{{quantum}}</p>
       </div>
-    </div>
-  
-    <!-- Modal -->
-    <div class="modal fade" id="youtubemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="exampleModalLabel">Ingresa la url de tu directo de Youtube</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" id="modal">
-            <input type="text" [(ngModel)]="urlYoutube">
-            <button data-dismiss="modal" id="acceptyt">Cancelar</button>
-            <button (click)="platformStream('youtube')" data-dismiss="modal" id="cancelyt">Aceptar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Modal facebook-->
-    <div class="modal fade" id="facebookmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="exampleModalLabel">Ingresa la url de tu directo de Facebook</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" id="modal">
-            <input type="text" [(ngModel)]="urlFacebook">
-            <button data-dismiss="modal" id="acceptyt">Cancelar</button>
-            <button (click)="platformStream('facebook')" data-dismiss="modal" id="cancelyt">Aceptar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Modal twitch-->
-    <div class="modal fade" id="twitchmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="exampleModalLabel">Ingresa el nombre de tu canal de Twitch</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" id="modal">
-            <input type="text" [(ngModel)]="urlTwitch">
-            <button data-dismiss="modal" id="acceptyt">Cancelar</button>
-            <button (click)="platformStream('twitch')" data-dismiss="modal" id="cancelyt">Aceptar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <!-- viewers -->
-    <div id="viewers">
-      <h4>Espectadores: </h4>
-      <h4 id="view-quantum">{{viewers}}</h4>
-    </div>
-  
-    <!-- video youtube-->
-    <div id="video" class="video">
-      <h4 id="live-text">En Vivo</h4>
-      <iframe width="560" height="315" [src]="urlYoutubeIframe" frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-  
-  
-    <!-- video twitch -->
-    <div id="videotwitch" class="video">
-      <h4 id="live-text">En Vivo twitch</h4>
-      <iframe [src]='urlTwitchIframe' frameborder="0" allowfullscreen="true" scrolling="no" height="315"
-        width="560"></iframe>
-    </div>
-  
-    <!-- video facebook -->
-    <div id="videofacebook" class="video">
-      <h4 id="live-text">En Vivo Facebook</h4>
-      <iframe [src]='urlFacebookIframe' width="560" height="315" scrolling="no" frameborder="0"
-        allowFullScreen="true"></iframe>
-    </div>
-  
+      <img src="" alt="" srcset="">
+      <img src="" alt="" srcset="">
+      <img src="" alt="" srcset="">
+    </ul>
   </div>
-  
+
+  <!-- Modal
+  <div class="modal fade" id="youtubemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">Ingresa la url de tu directo de Youtube</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal">
+          <input type="text" [(ngModel)]="urlYoutube">
+          <button data-dismiss="modal" id="acceptyt">Cancelar</button>
+          <button (click)="platformStream('youtube')" data-dismiss="modal" id="cancelyt">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  Modal facebook
+  <div class="modal fade" id="facebookmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">Ingresa la url de tu directo de Facebook</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal">
+          <input type="text" [(ngModel)]="urlFacebook">
+          <button data-dismiss="modal" id="acceptyt">Cancelar</button>
+          <button (click)="platformStream('facebook')" data-dismiss="modal" id="cancelyt">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  Modal twitch-->
+  <!-- <div class="modal fade" id="twitchmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">Ingresa el nombre de tu canal de Twitch</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal">
+          <input type="text" [(ngModel)]="urlTwitch">
+          <button data-dismiss="modal" id="acceptyt">Cancelar</button>
+          <button (click)="platformStream('twitch')" data-dismiss="modal" id="cancelyt">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- viewers -->
+  <div id="viewers">
+    <h4>Espectadores: </h4>
+    <h4 id="view-quantum">{{viewers}}</h4>
+  </div>
+
+  <!-- video youtube-->
+  <div id="video" class="video">
+    <h4 id="live-text">En Vivo</h4>
+    <iframe width="560" height="315" [src]="urlYoutubeIframe" frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <!-- video twitch -->
+  <div id="videotwitch" class="video">
+    <h4 id="live-text">En Vivo twitch</h4>
+    <iframe [src]='urlTwitchIframe' frameborder="0" allowfullscreen="true" scrolling="no" height="315"
+      width="560"></iframe>
+  </div>
+
+  <!-- video facebook -->
+  <div id="videofacebook" class="video">
+    <h4 id="live-text">En Vivo Facebook</h4>
+    <iframe [src]='urlFacebookIframe' width="560" height="315" scrolling="no" frameborder="0"
+      allowFullScreen="true"></iframe>
+  </div>
+
+</div>
