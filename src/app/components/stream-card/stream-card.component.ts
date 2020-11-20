@@ -40,7 +40,9 @@ export class StreamCardComponent {
       this.state = 'One viewer';
       this.stream.addViewers({ viewer: this.cookies.get('email'), gamer: this.gamer }).subscribe(res => {
         if (res['status'] == 'succes') {
-          this.router.navigate(['viewer-dash', '']);
+          console.log(this.url, this._id, 'esto');
+          
+          this.router.navigate(['viewer-dash', this._id]);
         } else {
           alert('ha ocurrido un error, vuelve a intentarlo')
         }

@@ -20,6 +20,10 @@ export class StreamService {
     return this.http.get(this.endpoint.URL_STREAM + '/');
   }
 
+  getStreamById(id: string) {
+    return this.http.get(this.endpoint.URL_STREAM + '/' + id);
+  }
+
   getStreamByPlatform(platform: string) {
     return this.http.get(this.endpoint.URL_STREAM + '/platform/' + platform);
   }
@@ -34,6 +38,14 @@ export class StreamService {
 
   removeViewer(streamId: string, viewer) {
     return this.http.put(this.endpoint.URL_STREAM + '/' + streamId, viewer);
+  }
+
+  changeStatus(streamId: string, status: string) {
+    return this.http.put(this.endpoint.URL_STREAM + '/status/' + streamId, { status: status });
+  }
+
+  remove(id: string) {
+    return this.http.delete(this.endpoint.URL_STREAM + '/' + id);
   }
 
 }

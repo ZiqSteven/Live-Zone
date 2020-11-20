@@ -15,7 +15,7 @@ export class ViewerService {
     return this.http.get(this.endpoint.URL_VIEWER + '/email/' + email);
   }
 
-  setTime(time: Number, id: string) {
-    return this.http.put(this.endpoint.URL_VIEWER + '/' + id, { time: time });
+  setTime(time: Number, mail: string) {
+    return this.http.put(this.endpoint.URL_VIEWER + '/' + mail, { time: time });
   }
 }

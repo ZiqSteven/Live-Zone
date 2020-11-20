@@ -13,11 +13,9 @@ export class ViewerComponent implements OnInit {
   platformList: string[] = ['Youtube', 'Twitch', 'Facebook'];
 
   constructor(private cookies: CookieService, private router: Router) { 
-    console.log((this.cookies.get('email') ), 'coo');
-    
     if (this.cookies.get('email') === '') {
-      // alert('Debes iniciar Sesión');
-      // this.router.navigate(['/']);
+      alert('Debes iniciar Sesión');
+      this.router.navigate(['/']);
     } 
   }
 

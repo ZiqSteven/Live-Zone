@@ -28,16 +28,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     //esto es un observable que recibir data de manera asincrono y varias veces
     this.authService.authState.subscribe((user) => {
-      console.log(user.authToken, 'token');
-      console.log(user, 'user');
-      
       this.userService.getUserByEmail(user.email).subscribe(res => {
         if (res['status'] != 'succes') {
           alert('Lo sentimos, no estás registrado, por favor registrate');
         } else {
           this.user = user;
-          console.log(this.user.idToken);
-          
           this.login();
           this.loggedIn = (user != null);
         }
@@ -70,7 +65,6 @@ export class HomeComponent implements OnInit {
       case 'facebook':
         this.cookies.set('email', this.user.email);
         console.log(this.cookies.get('email'), 'jajajajaj');
-        
         this.cookies.set('first_name', this.user.name);
         this.cookies.set('id_social', this.user.id);
         this.cookies.set('photo', this.user.response.picture.data.url);

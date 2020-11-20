@@ -17,7 +17,8 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'platform', component: PlatformComponent},
-  { path: '**', pathMatch: 'full', redirectTo: 'home'},
+  { path: 'viewer-dash/:_id', component: ViewerDashComponent},
+  // { path: '**', pathMatch: 'full', redirectTo: 'home'},
 ];
 
 @NgModule({

@@ -5,7 +5,6 @@ import { StreamService } from './../../services/stream.service';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Stream } from 'src/app/models/stream';
-import { Route } from '@angular/compiler/src/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -39,7 +38,7 @@ export class StreamerDashComponent implements OnInit {
 
     this.cookies.set('userToken', window.location.hash);
     console.log(window.location.hash, 'mi token');
-    
+
     //remover los elementos de la UI
     setTimeout(() => {
       document.getElementById('video').style.display = 'none';
@@ -50,33 +49,44 @@ export class StreamerDashComponent implements OnInit {
 
     //Obtener el Streaming actual activo
     this.youtubeService.getStreamByUser(this.cookies.get('userToken')).subscribe(res => {
-      console.log('entra', res);
-      
-    //   youtubeService.getVideoById(res['items'][0]['snippet']['channelId']).subscribe(video => {
-    //     this.urlYoutube = video['items'][0]['id']['videoId'];
-        // this.streamService.addStreaming(
-        //   new Stream(video['items'][0]['id']['videoId'], 'Youtube', 'active', this.cookies.get('name')));
-      //   this.youtube()
-      // });
-
-
       if (res['items'][0]['status']['streamStatus'] === 'active') {
         youtubeService.getVideoById(res['items'][0]['snippet']['channelId']).subscribe(video => {
           this.urlYoutube = video['items'][0]['id']['videoId'];
           this.streamService.addStreaming(
-            new Stream(video['items'][0]['id']['videoId'], 'Youtube', 'active', this.cookies.get('name')));
-          this.youtube()
+            new Stream(video['items'][0]['id']['videoId'], 'Youtube', 'active', this.cookies.get('name'))).subscribe(stream => {
+              this.cookies.set('streamId', stream['stream']['_id']);
+            });
+          this.youtube();
+          document.getElementById('viewers').style.display = 'block';
+          setInterval(() => {
+            this.verifyStreamingState()
+          },
+            5000);
         });
       } else {
         this.showAlert('Lo sentimos, no tienes un Streaming activo, vuelve a intentarlo');
       }
     });
-
     //REFRESCAR EL TOKEN SI SE EXPIRA
     // setTimeout(() => {
     //   this.youtubeService.refreshToken(this.cookies.get('userToken')).subscribe(res => {
     //   })
     // }, 2000);
+  }
+
+  verifyStreamingState() {
+    this.youtubeService.getStreamByUser(this.cookies.get('userToken')).subscribe(res => {
+      if (res['items'][0]['status']['streamStatus'] === 'active') {
+        console.log('streaming activo');
+      } else {
+        this.streamService.changeStatus(this.cookies.get('stream'), 'inactive').subscribe(res => {
+          console.log(res, 'res del estado');
+        });
+        this.showAlert('Lo sentimos, no hay conexión con tu Streaming');
+        this.cookies.delete('stream');
+        this.router.navigate(['streamer']);
+      }
+    });
   }
 
   ngOnInit() {
@@ -93,6 +103,9 @@ export class StreamerDashComponent implements OnInit {
 
   ngOnDestroy() {
     this.cookies.deleteAll();
+    this.streamService.remove(this.cookies.get('streanId')).subscribe(res => {
+      console.log(res);
+    });
   }
 
   newStream() {
@@ -121,7 +134,6 @@ export class StreamerDashComponent implements OnInit {
   //Obtiene los Viewers de los Streams activos por gamer
   getViewers() {
     this.streamService.getStreamByGamer(this.name).subscribe(res => {
-      console.log(res, 'response to server');
       if (res['status'] === 'error') {
         console.log(res['message']);
       } else {
@@ -140,9 +152,10 @@ export class StreamerDashComponent implements OnInit {
     this.streamService.addStreaming(new Stream(this.urlYoutube['changingThisBreaksApplicationSecurity'], this.platform, 'active', 'el pro')).subscribe(res => {
       console.log(res);
     });
-    // setInterval(() => {
-    //   this.getViewers();
-    // }, 1000)
+
+    setInterval(() => {
+      this.getViewers();
+    }, 2000);
   }
 
   twitch() {
