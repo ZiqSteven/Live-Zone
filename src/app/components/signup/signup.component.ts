@@ -20,14 +20,15 @@ export class SignupComponent implements OnInit {
     private cookies: CookieService) { }
 
   ngOnInit(): void {
+    //TO-DO agregar los atributos username, password kind(tipo de usuario) al momoento de crear usuarios
     this.authService.authState.subscribe((user) => {
       this.user = user;
       switch (this.socialmedia) {
         case 'facebook':
-          this.signUp(new User(this.user.name, user.email, this.user.id, this.user.response.picture.data.url));
+          // this.signUp(new User(this.user.name, user.email, this.user.id, this.user.response.picture.data.url));
           break;
         case 'google':
-          this.signUp(new User(this.user.name, user.email, this.user.id, this.user.photoUrl));
+          // this.signUp(new User(this.user.name, user.email, this.user.id, this.user.photoUrl));
           break;
       }
     });

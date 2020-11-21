@@ -18,15 +18,14 @@ export class YoutubeService {
   }
 
   getStreamByUser(token: string) {
-    const tok = token.replace('access_token=', '');
+    const tok = token.replace('#access_token=', '');
     const p = tok.split('&');
 
     const headers = new HttpHeaders({
-      // 'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${p[0].replace('#', '')}`
-    })
-    return this.http.get(this.url, { headers: headers })
+      'Authorization': `Bearer ${p[0]}`
+    });
+    return this.http.get(this.url, { headers: headers });
   }
 
   refreshToken(token: string) {

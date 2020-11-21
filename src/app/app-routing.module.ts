@@ -10,6 +10,7 @@ import { PoliticaComponent } from './components/politica/politica.component';
 import { ViewerComponent } from './components/viewer/viewer.component';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent},
   { path: 'home', component: HomeComponent},
   { path: 'politica-de-privacidad', component: PoliticaComponent},
   { path: 'streamer', component: StreamerDashComponent},

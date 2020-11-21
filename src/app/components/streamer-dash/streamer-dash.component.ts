@@ -37,7 +37,6 @@ export class StreamerDashComponent implements OnInit {
     this.platform = 'yt';
 
     this.cookies.set('userToken', window.location.hash);
-    console.log(window.location.hash, 'mi token');
 
     //remover los elementos de la UI
     setTimeout(() => {
@@ -74,6 +73,9 @@ export class StreamerDashComponent implements OnInit {
     // }, 2000);
   }
 
+  /**
+   * verifica el estado del stream (activo, inactivo)
+   */
   verifyStreamingState() {
     this.youtubeService.getStreamByUser(this.cookies.get('userToken')).subscribe(res => {
       if (res['items'][0]['status']['streamStatus'] === 'active') {
@@ -92,13 +94,17 @@ export class StreamerDashComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Mostrar una alerta personalizada con sweetAlert
+   * @param text Texto que se va a mostrar en el alert
+   */
   showAlert(text: string) {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: text,
       footer: '<a href>¿Por qué sucede esto?</a>'
-    })
+    });
   }
 
   ngOnDestroy() {
