@@ -1,3 +1,4 @@
+import { LoginComponent } from './components/login/login.component';
 import { PlatformComponent } from './components/platform/platform.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { ViewerDashComponent } from './components/viewer-dash/viewer-dash.component';
@@ -16,8 +17,8 @@ const routes: Routes = [
   { path: 'streamer', component: StreamerDashComponent},
   { path: 'viewer', component: ViewerComponent},
   { path: 'signup', component: SignupComponent},
-  { path: 'signup', component: SignupComponent},
   { path: 'platform', component: PlatformComponent},
+  { path: 'login', component: LoginComponent},
   { path: 'viewer-dash/:_id', component: ViewerDashComponent},
   // { path: '**', pathMatch: 'full', redirectTo: 'home'},
 ];

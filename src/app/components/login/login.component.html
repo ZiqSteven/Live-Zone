@@ -1,0 +1,30 @@
+<div class="big">
+  <div class="image">
+    <img src="assets/svg/wave.svg" alt="" srcset="" id="wave">
+    <img src="assets/svg/gamers.svg" alt="" srcset="" id="gamer">
+  </div>
+  <form action="" class="form">
+    <img src="assets/svg/avatar.svg" alt="" srcset="" id="avatar">
+    <h1>Bienvenido</h1>
+    <div class="input-div">
+      <div class="user">
+        <h5>Nombre de usuario</h5>
+        <div class="i">
+          <i class="fas fa-user"></i>
+          <input type="email" [(ngModel)]='username' name="username">
+        </div>
+      </div>
+      <div class="password">
+        <h5>Contraseña</h5>
+        <div class="i">
+          <i class="fas fa-lock"></i>
+          <input type="password" [(ngModel)]='password' name="password">
+        </div>
+      </div>
+    </div>
+    <div class="forgot"><a href="#" class="forgot">Olvidé mi contraseña</a></div>
+    <button (click)="login()">Iniciar Sesión</button>
+    <h5 class="no-account">¿No tienes una cuenta? <a (click)="signup()" class="signup">Registrate</a></h5>
+  </form>
+
+</div>

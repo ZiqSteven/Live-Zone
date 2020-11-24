@@ -17,4 +17,8 @@ export class UserService {
   signUp(user: User) {
     return this.http.post(this.endPoint.URL_USER + '/', user);
   }
+
+  login(username: string, password: string) {
+    return this.http.post(this.endPoint.URL_USER + '/login/', { username: username, password: password });
+  }
 }

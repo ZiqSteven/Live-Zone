@@ -28,22 +28,23 @@ import { CookieService } from 'ngx-cookie-service';
 import { ViewerDashComponent } from './components/viewer-dash/viewer-dash.component';
 import { SignupComponent } from './components/signup/signup.component';
 import {
-  GoogleApiModule, 
-  GoogleApiService, 
-  GoogleAuthService, 
-  NgGapiClientConfig, 
+  GoogleApiModule,
+  GoogleApiService,
+  GoogleAuthService,
+  NgGapiClientConfig,
   NG_GAPI_CONFIG,
   GoogleApiConfig
 } from "ng-gapi";
 import { PlatformComponent } from './components/platform/platform.component';
+import { LoginComponent } from './components/login/login.component';
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: "897827329033-64bj6stlebpfeqkhi5bsnmqign1m75f8.apps.googleusercontent.com",
   discoveryDocs: ["https://www.googleapis.com/youtube/v3/liveStreams"],
   scope: [
-      "https://www.googleapis.com/auth/youtube.readonly",
-      "https://www.googleapis.com/auth/youtube",
-      "https://www.googleapis.com/auth/youtube.force-ssl"
+    "https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/youtube",
+    "https://www.googleapis.com/auth/youtube.force-ssl"
   ].join(" ")
 };
 
@@ -61,7 +62,8 @@ let gapiClientConfig: NgGapiClientConfig = {
     StreamListComponent,
     ViewerDashComponent,
     SignupComponent,
-    PlatformComponent
+    PlatformComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +93,7 @@ let gapiClientConfig: NgGapiClientConfig = {
         ],
       } as SocialAuthServiceConfig,
     },
-    StreamService, 
+    StreamService,
     EndPointService,
     CookieService,
     YoutubeService,

@@ -1,90 +1,97 @@
-.bg-video{
+.bg-video {
     position: relative;
-    display: inline-block;
+    display: grid;
     text-align: center;
+    grid-template-areas:
+        "text text image image"
+        "facebook google image image"
+        "twitch exit image image";
+    background-color: #151520;
 }
 
-.centrado{
-    width: 100%;
-    color: white;
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+img {
+    height: 85vh;
+    width: 35vw;
+    grid-area: image;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-right: 2vw;
+    border-radius: 2vh;
 }
 
-#vidBtn{
-    font-family:  'Mada', sans-serif;
-    display: inline-block;
+button {
+    height: 30%;
+    margin-left: 15%;
+    margin-right: 5%;
+}
+
+#vidBtn {
+    font-family: "Mada", sans-serif;
     font-size: 16px;
     padding: 12px 30px;
     border: none;
     background: #1877f2;
     color: white;
-    cursor: pointer;
-    margin-top: 18px;
-    margin-left: 20px;
     border-radius: 9px;
     animation: shadow-pulse 2s infinite;
     text-transform: uppercase;
+    grid-row: facebook;
 }
 
-#vidBtn1{
-    font-family:  'Mada', sans-serif;
-    display: inline-block;
+#vidBtn1 {
+    font-family: "Mada", sans-serif;
     font-size: 16px;
     padding: 12px 30px;
     border: none;
     background: #9147ff;
     color: white;
     cursor: pointer;
-    margin-top: 18px;
-    margin-left: 20px;
     border-radius: 9px;
     animation: shadow-pulse 2s infinite;
     text-transform: uppercase;
+    grid-area: twitch;
 }
 
-#vidBtn2{
-    font-family:  'Mada', sans-serif;
-    display: inline-block;
+#vidBtn2 {
+    font-family: "Mada", sans-serif;
     font-size: 16px;
     padding: 12px 30px;
     border: none;
     background: #ff0000;
     color: white;
     cursor: pointer;
-    margin-top: 18px;
-    margin-left: 20px;
     border-radius: 9px;
     animation: shadow-pulse 2s infinite;
     text-transform: uppercase;
+    grid-area: google;
 }
 
-#vidBtn3{
-    font-family:  'Mada', sans-serif;
-    display: inline-block;
+#vidBtn3 {
+    font-family: "Mada", sans-serif;
     font-size: 16px;
     padding: 12px 30px;
     border: none;
     background: #ffa500;
     color: white;
     cursor: pointer;
-    margin-top: 18px;
-    margin-left: 20px;
     border-radius: 9px;
     animation: shadow-pulse 2s infinite;
     text-transform: uppercase;
+    grid-area: exit;
 }
 
-h3{
+h1 {
+    margin-top: 5%;
     color: #fff;
+    grid-area: text;
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 60px;
 }
 
-a{
+a {
     cursor: pointer;
 }
 
-a:hover{
+a:hover {
     color: #ffa500;
 }

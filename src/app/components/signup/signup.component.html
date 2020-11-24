@@ -1,20 +1,45 @@
-<div class="centrado">
-  <button id="vidBtn" (click)="signInWithFB()">
-    <i class="fa fa-facebook"></i>
-    Continuar con Facebook
-  </button>
-  <button id="vidBtn2" (click)="signInWithGoogle()">
-    <i class="fa fa-google"></i>
-    Continuar con Google
-  </button>
-  <button id="vidBtn1" (click)="signInWithGoogle()">
-    <i class="fa fa-twitch"></i>
-    Continuar con Twitch
-  </button>
-  <div>
-    <button id="vidBtn3" (click)="signOut()">
-      <i class="fa fa-sign-out"></i>
-      Cerrar sesion
-    </button>
+<div class="big">
+  <div class="image">
+    <img src="assets/svg/wave.svg" alt="" srcset="" id="wave">
+    <img src="assets/svg/gamers.svg" alt="" srcset="" id="gamer">
   </div>
+  <form action="" class="form">
+    <img src="assets/svg/avatar.svg" alt="" srcset="" id="avatar">
+    <h1>Registro</h1>
+    <div class="input-div">
+      <div class="user">
+        <h5>Nombre de usuario</h5>
+        <div class="i">
+          <i class="fas fa-user"></i>
+          <input type="text" [(ngModel)]='username' required name="username">
+        </div>
+      </div>
+      <div class="password">
+        <h5>Tipo de usuario</h5>
+        <div class="i">
+          <i class="fas fa-lock"></i>
+          <select name="" [(ngModel)]='kind' required name="kind">
+            <option value="Streamer">Streamer</option>
+            <option value="Viewer">Espectador</option>
+          </select>
+        </div>
+      </div>
+      <div class="password">
+        <h5>Contraseña</h5>
+        <div class="i">
+          <i class="fas fa-lock"></i>
+          <input type="password" [(ngModel)]="password" minlength=6 required name="password">
+        </div>
+      </div>
+      <div class="password">
+        <h5>Confirmar contraseña</h5>
+        <div class="i">
+          <i class="fas fa-lock"></i>
+          <input type="password" [(ngModel)]='confirm' minlength=6 required name="confirm">
+        </div>
+      </div>
+    </div>
+    <button (click)="signUp()">Registrarme</button>
+  </form>
+
 </div>
