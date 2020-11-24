@@ -1,3 +1,5 @@
+import { ConstantsService } from './../../services/constants.service';
+import { AlertService } from './../../services/alert.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { UserService } from './../../services/user.service';
@@ -10,7 +12,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router, private cookies: CookieService) { }
+  constructor(private userService: UserService, private router: Router, private cookies: CookieService,
+    private alert: AlertService, private constants: ConstantsService) { }
 
   username: string;
   password: string;
@@ -24,15 +27,17 @@ export class LoginComponent implements OnInit {
   login() {
     this.userService.login(this.username, this.password).subscribe(user => {
       if (user['status'] === 'error') {
-        alert('Usuario o contraseña incorrectos');
+        this.alert.showWrongAlert('Usuario o contraseña incorrectos');
       } else {
         if (user['user']['kind'] === 'streamer') {
           this.router.navigate(['streamer']);
         } else {
           this.router.navigate(['viewer']);
         }
-        this.cookies.set('username', user['user']['username']);
-        this.cookies.set('password', user['user']['password']);
+        this.cookies.set(this.constants.COOKIES_USERNAME, user['user']['username']);
+        this.cookies.set(this.constants.COOKIES_PASSWORD, user['user']['password']);
+        this.cookies.set(this.constants.COOKIES_USER_ID, user['user']['_id']);
+        this.cookies.set(this.constants.COOKIES_KIND_USER, user['user']['kind']);
         this.username = '';
         this.password = '';
       }

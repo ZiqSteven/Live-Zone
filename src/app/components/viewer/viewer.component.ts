@@ -1,7 +1,8 @@
+import { ConstantsService } from './../../services/constants.service';
+import { AlertService } from './../../services/alert.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { StreamCardComponent } from './../stream-card/stream-card.component';
-import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-viewer',
@@ -12,11 +13,13 @@ export class ViewerComponent implements OnInit {
 
   platformList: string[] = ['Youtube', 'Twitch', 'Facebook'];
 
-  constructor(private cookies: CookieService, private router: Router) { 
-    if (this.cookies.get('email') === '') {
-      alert('Debes iniciar Sesión');
+  constructor(private cookies: CookieService, private router: Router, private alert: AlertService,
+    private constants: ConstantsService) {
+
+    if (this.cookies.get(this.constants.COOKIES_EMAIL) === '') {
+      this.alert.showWarningAlert('Debes iniciar Sesión');
       this.router.navigate(['/']);
-    } 
+    }
   }
 
   ngOnInit(): void {

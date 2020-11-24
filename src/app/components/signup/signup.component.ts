@@ -1,10 +1,11 @@
+import { ConstantsService } from './../../services/constants.service';
+import { AlertService } from './../../services/alert.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { User } from './../../models/user';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
-import { SocialAuthService, SocialUser } from 'angularx-social-login';
-import { FacebookLoginProvider, GoogleLoginProvider, VKLoginProvider } from "angularx-social-login";
+import { SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +21,8 @@ export class SignupComponent implements OnInit {
   confirm: string;
   kind: string;
 
-  constructor(private userService: UserService, private router: Router, private cookies: CookieService) { }
+  constructor(private userService: UserService, private router: Router, private cookies: CookieService,
+    private alert: AlertService, private constants: ConstantsService) { }
 
   ngOnInit(): void {
   }
@@ -31,18 +33,22 @@ export class SignupComponent implements OnInit {
 
   signUp() {
     if (this.username == undefined || this.password == undefined || this.kind == undefined) {
-      alert('Todos los campos son requeridos');
+      this.alert.showWarningAlert('Todos los campos son requeridos');
     } else {
       if (this.password === this.confirm) {
-        const user: User = new User(this.cookies.get('name'), this.cookies.get('email'), this.username,
-          this.password, this.kind, this.cookies.get('id_social'), this.cookies.get('photo'));
+
+        const user: User = new User(this.cookies.get(this.constants.COOKIES_NAME), this.cookies.get(this.constants.COOKIES_EMAIL),
+          this.username, this.password, this.kind, this.cookies.get(this.constants.COOKIES_ID_SOCIAL),
+          this.cookies.get(this.constants.COOKIES_ID_SOCIAL));
+
         this.userService.signUp(user).subscribe(res => {
           if (res['status'] == 'error') {
-            alert(res['message']);
+            this.alert.showWrongAlert(res['message']);
           } else {
-            this.cookies.set('username', this.username);
-            this.cookies.set('password', this.password);
-            this.cookies.set('kind', this.kind);
+            this.cookies.set(this.constants.COOKIES_USERNAME, this.username);
+            this.cookies.set(this.constants.COOKIES_PASSWORD, this.password);
+            this.cookies.set(this.constants.COOKIES_KIND_USER, this.kind);
+            this.cookies.set(this.constants.COOKIES_USER_ID, res['user']['_id']);
             if (res['user']['kind'] === 'streamer') {
               this.router.navigate(['streamer']);
             } else {
@@ -51,9 +57,8 @@ export class SignupComponent implements OnInit {
           }
         });
       } else {
-        alert('Las contraseñas no coinciden')
+        this.alert.showWarningAlert('Las contraseñas no coinciden')
       }
-
     }
     this.username = '';
     this.password = '';

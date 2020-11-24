@@ -1,7 +1,9 @@
+import { ConstantsService } from './../../services/constants.service';
+import { AlertService } from './../../services/alert.service';
 import { YoutubeService } from './../../services/youtube.service';
 import { ViewerService } from './../../services/viewer.service';
 import { CookieService } from 'ngx-cookie-service';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StreamService } from 'src/app/services/stream.service';
 
@@ -25,10 +27,11 @@ export class ViewerDashComponent {
   time: string;
   //user obtenber user en vez dce. viewer o mirar a ver
   constructor(private cookies: CookieService, private viewerService: ViewerService,
-    private router: Router, private activatedRoute: ActivatedRoute,
-    private streamingService: StreamService, private youtubeService: YoutubeService) {
-    if (this.cookies.get('email') != '') {
-      this.viewerService.getViewerByEmail(this.cookies.get('email')).subscribe(res => {
+    private router: Router, private activatedRoute: ActivatedRoute, private streamingService: StreamService,
+    private youtubeService: YoutubeService, private alert: AlertService, private constants: ConstantsService) {
+
+    if (this.cookies.get(this.constants.COOKIES_EMAIL) != '') {
+      this.viewerService.getViewerByEmail(this.cookies.get(this.constants.COOKIES_EMAIL)).subscribe(res => {
         this.streamId = this.activatedRoute.snapshot.params._id;
         this.streamingService.getStreamById(this.streamId).subscribe(res => {
           this.url = this.youtubeService.getSafeUrl(res['stream']['url']);
@@ -40,7 +43,7 @@ export class ViewerDashComponent {
       });
       this.initTime(true);
     } else {
-      alert('Por favor, inicia sesión');
+      this.alert.showWrongAlert('Por favor, inicia sesión');
       this.router.navigate(['/']);
     }
   }
@@ -62,9 +65,9 @@ export class ViewerDashComponent {
   private setTime() {
     this.streamingService.getStreamById(this.streamId).subscribe(stream => {
       if (stream['stream']['status'] === 'inactive') {
-        this.viewerService.setTime(this.getTime(), this.cookies.get('email'));
+        this.viewerService.setTime(this.getTime(), this.cookies.get(this.constants.COOKIES_EMAIL));
         this.initTime(false);
-        this.streamingService.removeViewer(this.streamId, this.cookies.get('email')).subscribe(res => {
+        this.streamingService.removeViewer(this.streamId, this.cookies.get(this.constants.COOKIES_EMAIL)).subscribe(res => {
           console.log(res);
         })
       }
@@ -74,7 +77,8 @@ export class ViewerDashComponent {
 
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event): void {
-    this.viewerService.setTime(this.viewerMinutes + this.minutes + (this.hours / 60), this.cookies.get('user_id'));
+    this.viewerService.setTime(this.viewerMinutes + this.minutes + (this.hours / 60),
+      this.cookies.get(this.constants.COOKIES_USER_ID));
     this.initTime(false);
     this.router.navigate(['/']);
   }

@@ -1,3 +1,5 @@
+import { ConstantsService } from './services/constants.service';
+import { AlertService } from './services/alert.service';
 import { YoutubeService } from './services/youtube.service';
 import { UserService } from './services/user.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -98,7 +100,9 @@ let gapiClientConfig: NgGapiClientConfig = {
     CookieService,
     YoutubeService,
     GoogleApiService,
-    UserService
+    UserService,
+    AlertService,
+    ConstantsService
   ],
   bootstrap: [AppComponent]
 })

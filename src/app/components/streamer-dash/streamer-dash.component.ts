@@ -1,3 +1,5 @@
+import { ConstantsService } from './../../services/constants.service';
+import { AlertService } from './../../services/alert.service';
 import { Router } from '@angular/router';
 import { YoutubeService } from './../../services/youtube.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -5,7 +7,6 @@ import { StreamService } from './../../services/stream.service';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Stream } from 'src/app/models/stream';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-streamer-dash',
@@ -31,12 +32,15 @@ export class StreamerDashComponent implements OnInit {
   name: string = 'el pro';
 
   constructor(private _sanitizer: DomSanitizer, private streamService: StreamService,
-    private cookies: CookieService, private youtubeService: YoutubeService, private router: Router) {
+    private cookies: CookieService, private youtubeService: YoutubeService, private router: Router,
+    private alert: AlertService, private constants: ConstantsService) {
+
+    this.verifyLogin();
 
     this.greeting = '¡Hola Gamer, Bienvenido!'
     this.platform = 'yt';
 
-    this.cookies.set('userToken', window.location.hash);
+    this.cookies.set(this.constants.COOKIES_USER_TOKEN, window.location.hash);
 
     //remover los elementos de la UI
     setTimeout(() => {
@@ -47,23 +51,42 @@ export class StreamerDashComponent implements OnInit {
     }, 0.1);
 
     //Obtener el Streaming actual activo
-    this.youtubeService.getStreamByUser(this.cookies.get('userToken')).subscribe(res => {
+    this.getCurrentStreaming(youtubeService);
+
+  }
+
+  /**
+   * Verifica que el usuario haya iniciado sesión
+   */
+  private verifyLogin() {
+    if (this.cookies.get(this.constants.COOKIES_EMAIL) == '' || this.cookies.get(this.constants.COOKIES_KIND_USER) != 'streamer') {
+      this.alert.showWrongAlert('Lo Sentimos, Debes iniciar sesión');
+      this.router.navigate(['/']);
+    }
+  }
+
+  /**
+   * Obtiene el Streaming actual activo del Streamer, si no hay ninguno, muestra el emnsaje de alerta
+   * @param youtubeService Servicio para acceder a la API de Youtube
+   */
+  private getCurrentStreaming(youtubeService: YoutubeService) {
+    this.youtubeService.getStreamByUser(this.cookies.get(this.constants.COOKIES_USER_TOKEN)).subscribe(res => {
       if (res['items'][0]['status']['streamStatus'] === 'active') {
         youtubeService.getVideoById(res['items'][0]['snippet']['channelId']).subscribe(video => {
           this.urlYoutube = video['items'][0]['id']['videoId'];
           this.streamService.addStreaming(
-            new Stream(video['items'][0]['id']['videoId'], 'Youtube', 'active', this.cookies.get('name'))).subscribe(stream => {
-              this.cookies.set('streamId', stream['stream']['_id']);
+            new Stream(video['items'][0]['id']['videoId'], 'Youtube', 'active', this.cookies.get(this.constants.COOKIES_NAME))).subscribe(stream => {
+              this.cookies.set(this.constants.COOKIES_STREAMID, stream['stream']['_id']);
             });
           this.youtube();
           document.getElementById('viewers').style.display = 'block';
           setInterval(() => {
-            this.verifyStreamingState()
+            this.verifyStreamingState();
           },
             5000);
         });
       } else {
-        this.showAlert('Lo sentimos, no tienes un Streaming activo, vuelve a intentarlo');
+        this.alert.showWrongAlert('Lo sentimos, no tienes un Streaming activo, vuelve a intentarlo');
       }
     });
     //REFRESCAR EL TOKEN SI SE EXPIRA
@@ -77,15 +100,15 @@ export class StreamerDashComponent implements OnInit {
    * verifica el estado del stream (activo, inactivo)
    */
   verifyStreamingState() {
-    this.youtubeService.getStreamByUser(this.cookies.get('userToken')).subscribe(res => {
+    this.youtubeService.getStreamByUser(this.cookies.get(this.constants.COOKIES_USER_TOKEN)).subscribe(res => {
       if (res['items'][0]['status']['streamStatus'] === 'active') {
         console.log('streaming activo');
       } else {
-        this.streamService.changeStatus(this.cookies.get('stream'), 'inactive').subscribe(res => {
+        this.streamService.changeStatus(this.cookies.get(this.constants.COOKIES_STREAMID), 'inactive').subscribe(res => {
           console.log(res, 'res del estado');
         });
-        this.showAlert('Lo sentimos, no hay conexión con tu Streaming');
-        this.cookies.delete('stream');
+        this.alert.showWrongAlert('Lo sentimos, no hay conexión con tu Streaming');
+        this.cookies.delete(this.constants.COOKIES_STREAMID);
         this.router.navigate(['streamer']);
       }
     });
@@ -94,26 +117,16 @@ export class StreamerDashComponent implements OnInit {
   ngOnInit() {
   }
 
-  /**
-   * Mostrar una alerta personalizada con sweetAlert
-   * @param text Texto que se va a mostrar en el alert
-   */
-  showAlert(text: string) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: text,
-      footer: '<a href>¿Por qué sucede esto?</a>'
-    });
-  }
-
   ngOnDestroy() {
     this.cookies.deleteAll();
-    this.streamService.remove(this.cookies.get('streanId')).subscribe(res => {
+    this.streamService.remove(this.cookies.get(this.constants.COOKIES_STREAMID)).subscribe(res => {
       console.log(res);
     });
   }
 
+  /**
+   * Abre una nueva ventana para seleccionar la plataforma de emisión
+   */
   newStream() {
     this.router.navigate(['platform'])
   }
@@ -137,7 +150,9 @@ export class StreamerDashComponent implements OnInit {
     document.getElementById('viewers').style.display = 'block';
   }
 
-  //Obtiene los Viewers de los Streams activos por gamer
+  /**
+   * Obtiene los Viewers de los Streams activos por gamer
+   */
   getViewers() {
     this.streamService.getStreamByGamer(this.name).subscribe(res => {
       if (res['status'] === 'error') {
@@ -187,7 +202,8 @@ export class StreamerDashComponent implements OnInit {
     document.getElementById('viewers').style.display = 'block';
     console.log(this.urlFacebookIframe['changingThisBreaksApplicationSecurity'], 'url fb');
 
-    this.streamService.addStreaming(new Stream(this.urlFacebookIframe['changingThisBreaksApplicationSecurity'], this.platform, 'active', 'el pro facebook')).subscribe(res => {
+    this.streamService.addStreaming(new Stream(this.urlFacebookIframe['changingThisBreaksApplicationSecurity'], this.platform, 'active',
+     this.cookies.get(this.constants.COOKIES_NAME))).subscribe(res => {
       console.log(res);
     });
   }

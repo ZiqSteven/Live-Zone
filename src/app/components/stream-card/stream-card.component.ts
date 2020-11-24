@@ -1,3 +1,5 @@
+import { ConstantsService } from './../../services/constants.service';
+import { AlertService } from './../../services/alert.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { StreamService } from './../../services/stream.service';
@@ -18,7 +20,8 @@ export class StreamCardComponent {
   state: string;
 
   constructor(private dom: DomSanitizer, private stream: StreamService,
-    private cookies: CookieService, private router: Router) {
+    private cookies: CookieService, private router: Router, private alert: AlertService, 
+    private constants: ConstantsService) {
     setTimeout(() => {
       this.url = this.dom.bypassSecurityTrustResourceUrl(this.url);
     }, 10);
@@ -36,19 +39,17 @@ export class StreamCardComponent {
    */
   watch() {
     //este método falta completarlo: necesita que se guarden las cookies de inicio de sesión
-    if (this.cookies.get('email') != '') {
+    if (this.cookies.get(this.constants.COOKIES_EMAIL) != '') {
       this.state = 'One viewer';
-      this.stream.addViewers({ viewer: this.cookies.get('email'), gamer: this.gamer }).subscribe(res => {
+      this.stream.addViewers({ viewer: this.cookies.get(this.constants.COOKIES_EMAIL), gamer: this.gamer }).subscribe(res => {
         if (res['status'] == 'succes') {
-          console.log(this.url, this._id, 'esto');
-          
           this.router.navigate(['viewer-dash', this._id]);
         } else {
-          alert('ha ocurrido un error, vuelve a intentarlo')
+          this.alert.showWrongAlert('ha ocurrido un error, vuelve a intentarlo')
         }
       });
     } else {
-      alert('Debes iniciar sesión para ver este Streaming');
+      this.alert.showWrongAlert('Debes iniciar sesión para ver este Streaming');
     }
   }
 }

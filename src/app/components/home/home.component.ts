@@ -1,9 +1,7 @@
-import { User } from './../../models/user';
-import { UserService } from './../../services/user.service';
+import { ConstantsService } from './../../services/constants.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
-
 import { SocialAuthService } from "angularx-social-login";
 import { SocialUser } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider, VKLoginProvider } from "angularx-social-login";
@@ -21,7 +19,7 @@ export class HomeComponent implements OnInit {
   photo: string
 
   constructor(private authService: SocialAuthService, private cookies: CookieService,
-    private userService: UserService, private router: Router) {
+   private router: Router, private constants: ConstantsService) {
     this.cookies.deleteAll();
   }
 
@@ -55,17 +53,17 @@ export class HomeComponent implements OnInit {
   login() {
     switch (this.platform) {
       case 'facebook':
-        this.cookies.set('email', this.user.email);
-        this.cookies.set('first_name', this.user.name);
-        this.cookies.set('id_social', this.user.id);
-        this.cookies.set('photo', this.user.response.picture.data.url);
+        this.cookies.set(this.constants.COOKIES_EMAIL, this.user.email);
+        this.cookies.set(this.constants.COOKIES_EMAIL, this.user.name);
+        this.cookies.set(this.constants.COOKIES_ID_SOCIAL, this.user.id);
+        this.cookies.set(this.constants.COOKIES_PHOTO, this.user.response.picture.data.url);
         this.photo = this.user.response.picture.data.url;
         break;
       case 'google':
-        this.cookies.set('email', this.user.email);
-        this.cookies.set('first_name', this.user.name);
-        this.cookies.set('id_social', this.user.id);
-        this.cookies.set('photo', this.user.photoUrl);
+        this.cookies.set(this.constants.COOKIES_EMAIL, this.user.email);
+        this.cookies.set(this.constants.COOKIES_EMAIL, this.user.name);
+        this.cookies.set(this.constants.COOKIES_ID_SOCIAL, this.user.id);
+        this.cookies.set(this.constants.COOKIES_PHOTO, this.user.photoUrl);
         this.photo = this.user.photoUrl;
         break;
     }
