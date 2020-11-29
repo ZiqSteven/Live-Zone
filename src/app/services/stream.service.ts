@@ -28,8 +28,10 @@ export class StreamService {
     return this.http.get(this.endpoint.URL_STREAM + '/platform/' + platform);
   }
 
-  getStreamByGamer(gamer: string) {
-    return this.http.get(this.endpoint.URL_STREAM + '/gamer/' + gamer);
+  getStreamByUsername(username: string) {
+    console.log(username, 'nombre de usuario en el servico');
+    
+    return this.http.get(this.endpoint.URL_STREAM + '/username/' + username);
   }
 
   addViewers(viewer) {
@@ -37,7 +39,7 @@ export class StreamService {
   }
 
   removeViewer(streamId: string, viewer) {
-    return this.http.put(this.endpoint.URL_STREAM + '/' + streamId, viewer);
+    return this.http.put(this.endpoint.URL_STREAM + '/' + streamId, {viewer: viewer});
   }
 
   changeStatus(streamId: string, status: string) {

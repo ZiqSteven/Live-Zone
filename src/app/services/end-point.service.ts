@@ -7,7 +7,7 @@ export class EndPointService {
 
   URL_STREAM = 'http://localhost:3000/stream';
   URL_USER = 'http://localhost:3000/user';
-  URL_VIEWER = 'http://localhost:3000/viewer';
+  URL_CONNECTED = 'http://localhost:3000/connected';
 
   constructor() {
     this.proofUrl();
@@ -16,6 +16,6 @@ export class EndPointService {
   proofUrl() {
     this.URL_STREAM = 'http://localhost:3000/stream';
     this.URL_USER = 'http://localhost:3000/user';
-    this.URL_VIEWER = 'http://localhost:3000/viewer';
+    this.URL_CONNECTED = 'http://localhost:3000/connected';
   }
 }

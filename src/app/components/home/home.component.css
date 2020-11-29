@@ -2,6 +2,7 @@
     position: relative;
     display: grid;
     text-align: center;
+    height: 100vh;
     grid-template-areas:
         "text text image image"
         "facebook google image image"

@@ -18,6 +18,7 @@ export class User {
         this.password = password;
         this.kind = kind;
         this.id_social = id_social;
+        this.time = 0;
         this.url_photo = url_photo;
     }
 }

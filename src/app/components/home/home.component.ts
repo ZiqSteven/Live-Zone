@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   photo: string
 
   constructor(private authService: SocialAuthService, private cookies: CookieService,
-   private router: Router, private constants: ConstantsService) {
+    private router: Router, private constants: ConstantsService) {
     this.cookies.deleteAll();
   }
 
@@ -54,19 +54,21 @@ export class HomeComponent implements OnInit {
     switch (this.platform) {
       case 'facebook':
         this.cookies.set(this.constants.COOKIES_EMAIL, this.user.email);
-        this.cookies.set(this.constants.COOKIES_EMAIL, this.user.name);
+        this.cookies.set(this.constants.COOKIES_NAME, this.user.name);
         this.cookies.set(this.constants.COOKIES_ID_SOCIAL, this.user.id);
         this.cookies.set(this.constants.COOKIES_PHOTO, this.user.response.picture.data.url);
         this.photo = this.user.response.picture.data.url;
         break;
       case 'google':
         this.cookies.set(this.constants.COOKIES_EMAIL, this.user.email);
-        this.cookies.set(this.constants.COOKIES_EMAIL, this.user.name);
+        this.cookies.set(this.constants.COOKIES_NAME, this.user.name);
         this.cookies.set(this.constants.COOKIES_ID_SOCIAL, this.user.id);
         this.cookies.set(this.constants.COOKIES_PHOTO, this.user.photoUrl);
         this.photo = this.user.photoUrl;
         break;
     }
+    console.log(this.cookies.get(this.constants.COOKIES_EMAIL), 'email chinga');
+
     this.router.navigate(['login'])
   }
 

@@ -13,7 +13,12 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router, private cookies: CookieService,
-    private alert: AlertService, private constants: ConstantsService) { }
+    private alert: AlertService, private constants: ConstantsService) {
+    if (this.cookies.get(this.constants.COOKIES_EMAIL) == '') {
+      this.alert.showWarningAlert('Por favor Selecciona una plataforma primero');
+      this.router.navigate(['/']);
+    }
+  }
 
   username: string;
   password: string;
@@ -29,7 +34,7 @@ export class LoginComponent implements OnInit {
       if (user['status'] === 'error') {
         this.alert.showWrongAlert('Usuario o contraseña incorrectos');
       } else {
-        if (user['user']['kind'] === 'streamer') {
+        if (user['user']['kind'] === 'Streamer') {
           this.router.navigate(['streamer']);
         } else {
           this.router.navigate(['viewer']);

@@ -1,3 +1,4 @@
+import { ConnectedService } from './services/connected.service';
 import { ConstantsService } from './services/constants.service';
 import { AlertService } from './services/alert.service';
 import { YoutubeService } from './services/youtube.service';
@@ -102,6 +103,7 @@ let gapiClientConfig: NgGapiClientConfig = {
     GoogleApiService,
     UserService,
     AlertService,
+    ConnectedService,
     ConstantsService
   ],
   bootstrap: [AppComponent]

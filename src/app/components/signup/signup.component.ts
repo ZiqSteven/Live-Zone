@@ -22,13 +22,18 @@ export class SignupComponent implements OnInit {
   kind: string;
 
   constructor(private userService: UserService, private router: Router, private cookies: CookieService,
-    private alert: AlertService, private constants: ConstantsService) { }
+    private alert: AlertService, private constants: ConstantsService) {
+    if (this.cookies.get(this.constants.COOKIES_EMAIL) == '') {
+      this.alert.showWarningAlert('Por favor Selecciona una plataforma primero');
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit(): void {
   }
 
   ngOnDestroy() {
-    this.cookies.deleteAll();
+    // this.cookies.deleteAll();
   }
 
   signUp() {
@@ -36,11 +41,9 @@ export class SignupComponent implements OnInit {
       this.alert.showWarningAlert('Todos los campos son requeridos');
     } else {
       if (this.password === this.confirm) {
-
         const user: User = new User(this.cookies.get(this.constants.COOKIES_NAME), this.cookies.get(this.constants.COOKIES_EMAIL),
           this.username, this.password, this.kind, this.cookies.get(this.constants.COOKIES_ID_SOCIAL),
-          this.cookies.get(this.constants.COOKIES_ID_SOCIAL));
-
+          this.cookies.get(this.constants.COOKIES_PHOTO));
         this.userService.signUp(user).subscribe(res => {
           if (res['status'] == 'error') {
             this.alert.showWrongAlert(res['message']);
@@ -49,7 +52,7 @@ export class SignupComponent implements OnInit {
             this.cookies.set(this.constants.COOKIES_PASSWORD, this.password);
             this.cookies.set(this.constants.COOKIES_KIND_USER, this.kind);
             this.cookies.set(this.constants.COOKIES_USER_ID, res['user']['_id']);
-            if (res['user']['kind'] === 'streamer') {
+            if (res['user']['kind'] === 'Streamer') {
               this.router.navigate(['streamer']);
             } else {
               this.router.navigate(['viewer']);

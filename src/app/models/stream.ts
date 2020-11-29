@@ -3,12 +3,12 @@ export class Stream {
     url: string;
     platform: string;
     status: string;
-    gamer: string;
+    username: string;
 
-    constructor(url: string, platform: string, status: string, gamer: string) {
+    constructor(url: string, platform: string, status: string, username: string) {
         this.url = url;
         this.platform = platform;
         this.status = status;
-        this.gamer = gamer;
+        this.username = username;
     }
 }

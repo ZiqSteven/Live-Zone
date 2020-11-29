@@ -14,6 +14,10 @@ export class UserService {
     return this.http.get(this.endPoint.URL_USER + '/email/' + email);
   }
 
+  getUserByUserName(username: string) {
+    return this.http.get(this.endPoint.URL_USER + '/username/' + username);
+  }
+
   signUp(user: User) {
     return this.http.post(this.endPoint.URL_USER + '/', user);
   }
@@ -21,4 +25,9 @@ export class UserService {
   login(username: string, password: string) {
     return this.http.post(this.endPoint.URL_USER + '/login/', { username: username, password: password });
   }
+
+  setTime(time: Number, userId: string) {
+    return this.http.put(this.endPoint.URL_USER + '/' + userId, { time: time });
+  }
+
 }
