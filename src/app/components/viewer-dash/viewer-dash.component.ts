@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StreamService } from 'src/app/services/stream.service';
+import { _ParseAST } from '@angular/compiler';
 
 @Component({
   selector: 'app-viewer-dash',
@@ -14,7 +15,6 @@ import { StreamService } from 'src/app/services/stream.service';
   styleUrls: ['./viewer-dash.component.css']
 })
 export class ViewerDashComponent {
-
   url
   streamId: string
 
@@ -65,6 +65,9 @@ export class ViewerDashComponent {
     this.streamingService.getStreamById(this.streamId).subscribe(stream => {
       if (stream['stream'] != undefined) {
         if (stream['stream']['status'] === 'active') {
+          setTimeout(() => {
+            this.setTime();
+          }, 61000);
         } else {
           this.setTime();
         }
@@ -78,15 +81,23 @@ export class ViewerDashComponent {
    * Agrega el tiempo que duró viendo el streaming al usuario 
    */
   private setTime() {
-    if (this.getTime() > 0) {
-      this.userService.setTime(this.getTime(), this.cookies.get(this.constants.COOKIES_USER_ID)).subscribe(res => {
-        console.log(res, ' vamos a setear el tiempo en el servicio de viewer dash al espectador');
+    let time: number = this.getTime();
+    if (time > 0) {
+      alert(time + ' set time')
+      this.userService.setTime(time, this.cookies.get(this.constants.COOKIES_USERNAME)).subscribe(res => {
+        this.viewerMinutes = res['user']['time'];
+        alert(this.viewerMinutes + '   tiempooooooo');
+        this.router.navigate(['/viewer']);
       });
+    } else {
       this.initTime(false);
       this.closeWindow();
       clearInterval;
-      this.router.navigate(['/viewer'])
+      this.router.navigate(['/viewer']);
     }
+    this.initTime(false);
+    this.closeWindow();
+    clearInterval;
   }
 
   /**
@@ -101,17 +112,12 @@ export class ViewerDashComponent {
     });
   }
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeunloadHandler(event): void {
-    this.userService.setTime(this.viewerMinutes + this.minutes + (this.hours / 60),
-      this.cookies.get(this.constants.COOKIES_USER_ID));
-    this.initTime(false);
-  }
-
   /**
    * Obtiene el tiempo de visualización
    */
   getTime() {
+    console.log(this.viewerMinutes + this.hours * 60 + this.minutes + '  timpooooooo');
+
     return this.viewerMinutes + this.hours * 60 + this.minutes;
   }
 

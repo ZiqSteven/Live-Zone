@@ -47,7 +47,6 @@ export class YoutubeService {
   }
 
   getSafeUrl(url: string) {
-    alert(url + '  la url');
       return this._sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

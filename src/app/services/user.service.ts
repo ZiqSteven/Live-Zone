@@ -26,8 +26,8 @@ export class UserService {
     return this.http.post(this.endPoint.URL_USER + '/login/', { username: username, password: password });
   }
 
-  setTime(time: Number, userId: string) {
-    return this.http.put(this.endPoint.URL_USER + '/' + userId, { time: time });
+  setTime(time: Number, username: string) {
+    return this.http.put(this.endPoint.URL_USER + '/' + username, { time: time });
   }
 
 }

@@ -48,8 +48,7 @@ export class StreamCardComponent {
         this.stream.addViewers({ viewer: this.cookies.get(this.constants.COOKIES_USERNAME), id: this._id }).subscribe(res => {
           console.log(res, ' el viewer despies de agregarlo en el servicio');
           if (res['status'] == 'succes') {
-            alert('navega puichurrio  ' + this._id)
-            alert(this.router.navigate(['viewer-dash', this._id]));
+            this.router.navigate(['viewer-dash', this._id]);
           } else {
             this.alert.showWrongAlert('ha ocurrido un error, vuelve a intentarlo')
           }
@@ -69,9 +68,9 @@ export class StreamCardComponent {
       subscribe(res => {
         if (res['status'] === 'error') {
           this.alert.showWrongAlert(res['message']);
+          option = false;
         } else {
           option = true;
-          return true;
         }
       });
     return option;

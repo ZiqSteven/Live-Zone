@@ -108,13 +108,14 @@ export class StreamerDashComponent implements OnInit {
     this.youtubeService.getStreamByUser(this.cookies.get(this.constants.COOKIES_USER_TOKEN)).subscribe(res => {
       if (res['items'][0]['status']['streamStatus'] === 'active') {
       } else {
-        this.streamService.changeStatus(this.cookies.get(this.constants.COOKIES_STREAMID), 'inactive').subscribe(res => {
-        });
+        // this.streamService.changeStatus(this.cookies.get(this.constants.COOKIES_STREAMID), 'inactive').subscribe(res => {
+        // });
         this.streamService.remove(this.cookies.get(this.constants.COOKIES_STREAMID)).subscribe(res => {
+          console.warn(res);
         });
         this.alert.showWrongAlert('Lo sentimos, no hay conexión con tu Streaming');
-        this.router.navigate(['streamer']);
         this.cookies.delete(this.constants.COOKIES_STREAMID);
+        window.location.reload();
       }
     });
   }
@@ -177,12 +178,12 @@ export class StreamerDashComponent implements OnInit {
   }
 
   youtube() {
-    this.urlYoutubeIframe = this.getVideoIframeYoutube(this.urlYoutube);
-    this.platform = 'Youtube'
-    document.getElementById('video').style.display = 'block';
-    document.getElementById('videofacebook').style.display = 'none';
-    document.getElementById('videotwitch').style.display = 'none';
     if (!this.reload) {
+      this.urlYoutubeIframe = this.getVideoIframeYoutube(this.urlYoutube);
+      this.platform = 'Youtube'
+      document.getElementById('video').style.display = 'block';
+      document.getElementById('videofacebook').style.display = 'none';
+      document.getElementById('videotwitch').style.display = 'none';
       this.streamService.addStreaming(new Stream(this.urlYoutube['changingThisBreaksApplicationSecurity'], this.platform, 'active',
         this.cookies.get(this.constants.COOKIES_USERNAME))).subscribe(res => {
           console.log(res, ' el stream que agrega esta mondá en el streamer dash, esto es el servicio');
@@ -228,7 +229,7 @@ export class StreamerDashComponent implements OnInit {
 
       this.urlYoutube = this._sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);
 
-      return this._sanitizer.bypassSecurityTrustResourceUrl(video);
+      return this._sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);
     }
   }
 
