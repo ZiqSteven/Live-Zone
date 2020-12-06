@@ -121,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "LiveZone"
+    }
+  },
+  "defaultProject": "LiveZone",
+  "cli": {
+    "analytics": false
+  }
 }
